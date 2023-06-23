@@ -32,10 +32,15 @@ namespace ConsoleApp.Serilog
             var builder = new ConfigurationBuilder();
             BuildConfig(builder);
 
-            Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(builder.Build()).Enrich.FromLogContext().WriteTo.Console().CreateLogger();
+            #region Serilog
+
+            Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(builder.Build()).CreateLogger();
             Log.Logger.Information("Starting ...");
+            Log.Logger.Debug("Getting working directory: {workingDirectory}", Directory.GetCurrentDirectory());
             Log.Logger.Debug("Getting DOTNET_ENVIRONMENT: {DOTNET_ENVIRONMENT}", Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT"));
             Log.Logger.Debug("Getting ASPNETCORE_ENVIRONMENT: {ASPNETCORE_ENVIRONMENT}", Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"));
+
+            #endregion
 
             // Implement dependency injection in ~/Program.Main()
             var host = Host.CreateDefaultBuilder().ConfigureServices((context, services) =>
@@ -49,11 +54,19 @@ namespace ConsoleApp.Serilog
             // Use dependency injection in ~/Program.Main()
             var service = ActivatorUtilities.CreateInstance<StartupService>(host.Services);
 
+            #region Call your services here
+
             service.GetStartupMessage();
+
+            #endregion
+
+            #region Serilog
 
             Log.Logger.Information("Stopping ...");
 
             Log.CloseAndFlush();
+
+            #endregion
         }
     }
 }

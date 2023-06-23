@@ -26,9 +26,13 @@ namespace ConsoleApp.Serilog
         /// </summary>
         public void GetStartupMessage()
         {
+            #region Logger
+
             // Use the { ILogger } instance from the dependency injection container
             _logger.LogInformation("Getting startup message from configuration: {startupMessage}",
                 _configuration.GetValue<string>("StartupService:StartupMessage", "Hello World!"));
+
+            #endregion
 
             // Get values from the configuration object given their key and their target type
             Console.WriteLine(_configuration
