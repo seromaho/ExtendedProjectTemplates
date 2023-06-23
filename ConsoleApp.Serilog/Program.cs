@@ -23,7 +23,7 @@ namespace ConsoleApp.Serilog
             // Modify a configuration object, using the file configuration provider (JSON) and the Environment Variables configuration provider
             configurationBuilder.SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT") ?? "Production"}.json", optional: true, reloadOnChange: true)
                 .AddEnvironmentVariables();
         }
 
@@ -33,8 +33,9 @@ namespace ConsoleApp.Serilog
             BuildConfig(builder);
 
             Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(builder.Build()).Enrich.FromLogContext().WriteTo.Console().CreateLogger();
-
             Log.Logger.Information("Starting ...");
+            Log.Logger.Debug("Getting DOTNET_ENVIRONMENT: {DOTNET_ENVIRONMENT}", Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT"));
+            Log.Logger.Debug("Getting ASPNETCORE_ENVIRONMENT: {ASPNETCORE_ENVIRONMENT}", Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"));
 
             // Implement dependency injection in ~/Program.Main()
             var host = Host.CreateDefaultBuilder().ConfigureServices((context, services) =>
