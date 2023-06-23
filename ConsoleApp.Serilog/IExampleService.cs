@@ -1,4 +1,4 @@
-﻿namespace ConsoleApp
+﻿namespace ConsoleApp.Serilog
 {
     internal interface IExampleService
     {

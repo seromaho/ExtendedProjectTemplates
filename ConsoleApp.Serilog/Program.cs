@@ -8,7 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Serilog;
 // Simple .NET logging with fully-structured events.
 
-namespace ConsoleApp
+namespace ConsoleApp.Serilog
 {
     internal class Program
     {

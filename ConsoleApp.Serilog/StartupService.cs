@@ -4,7 +4,7 @@
 using Microsoft.Extensions.Logging;
 // Logging infrastructure default implementation for Microsoft.Extensions.Logging.
 
-namespace ConsoleApp
+namespace ConsoleApp.Serilog
 {
     internal class StartupService : IExampleService
     {
